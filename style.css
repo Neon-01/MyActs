@@ -1,0 +1,165 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  justify-content:center;
+  align-items:flex-start;
+  display: flex;
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #020617
+  );
+  color: #e5e7eb;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom:6px;
+}
+
+.tagline{
+  text-align:center;
+  opacity:0.6;
+  margin-bottom:25px;
+}
+
+/* Control Panel */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* Input */
+input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background: #1e293b;
+  color: white;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #38bdf8,
+              0 0 20px rgba(56,189,248,0.35);
+}
+
+
+/* Buttons */
+button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #334155, #1e293b);
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(56,189,248,0.25);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+
+/* Task List */
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin: 10px 0;
+  background: linear-gradient(
+    135deg,
+    #020617,
+    #020617
+  );
+  border-radius: 14px;
+  transition: all 0.25s ease;
+  border: 1px solid #1e293b;
+}
+
+li:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+li span {
+  flex:1;
+}
+
+
+/* Completed */
+.completed {
+  text-decoration: line-through;
+  color: #22c55e;
+  opacity: 0.6;
+  transition: 0.2s;
+}
+
+
+/* Selected */
+.selected {
+  background: linear-gradient(
+    135deg,
+    #422006,
+    #78350f
+  );
+  border-left: 6px solid #facc15;
+}
+
+
+.app {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 30px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.stats {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.75;
+  margin-bottom: 20px;
+}
+
+#taskList {
+  margin-top: 20px;
+}
+body.light {
+  background: linear-gradient(135deg, #e5e7eb, #cbd5f5);
+  color: #020617;
+}
+
+body.light .app {
+  background: rgba(255,255,255,0.85);
+}
+
+body.light li {
+  background: #f1f5f9;
+  border-color: #cbd5f5;
+}
+
+body.light input {
+  background: #e5e7eb;
+  color: #020617;
+}
+
+body.light button {
+  background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+  color: #020617;
+}
+
