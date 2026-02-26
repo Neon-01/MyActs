@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Browser Environment Dashboard</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.5s ease;
+    }
+
+    header {
+        background: #222;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    section {
+        padding: 20px;
+        margin: 15px;
+        background: rgba(255,255,255,0.9);
+        border-radius: 10px;
+    }
+
+    h2 {
+        border-bottom: 2px solid #333;
+        padding-bottom: 5px;
+    }
+
+    button {
+        padding: 8px 15px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background: #333;
+        color: white;
+    }
+
+    button:hover {
+        background: #555;
+    }
+
+    .info {
+        margin: 8px 0;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- ================= PROFILE HEADER ================= -->
+<header>
+    <h1>Student Profile</h1>
+    <p><strong>Complete Name:</strong> YOUR NAME</p>
+    <p><strong>Sex:</strong> YOUR SEX</p>
+    <p><strong>Address:</strong> YOUR ADDRESS</p>
+    <p><strong>Course, Year, Section:</strong> BSIT - 2A</p>
+    <p><strong>Name of School:</strong> YOUR SCHOOL</p>
+    <p><strong>Semester & Academic Year:</strong> 2nd Semester 2025-2026</p>
+    <p><strong>Subject Code & Title:</strong> ITXXX - Web Development</p>
+    <p><strong>Instructor:</strong> PROF. NAME</p>
+</header>
+
+<!-- ================= PART A ================= -->
+<section>
+    <h2>Part A: Browser Information</h2>
+    <div class="info" id="browserInfo"></div>
+</section>
+
+<!-- ================= PART B ================= -->
+<section>
+    <h2>Part B: Page Information & Controls</h2>
+    <div class="info" id="pageInfo"></div>
+    <button onclick="changeTitle()">Change Page Title</button>
+</section>
+
+<!-- ================= PART C ================= -->
+<section>
+    <h2>Part C: Navigation Controls</h2>
+    <button onclick="reloadPage()">Reload Page</button>
+    <button onclick="redirectPage()">Go to Example.com</button>
+    <button onclick="goBack()">Back</button>
+    <button onclick="goForward()">Forward</button>
+</section>
+
+<script>
+
+// ================= PART A: Browser Info =================
+
+// Using navigator and screen objects
+function displayBrowserInfo() {
+    const info = `
+        <strong>Browser Name:</strong> ${navigator.appName} <br>
+        <strong>Browser Version:</strong> ${navigator.appVersion} <br>
+        <strong>Platform (OS):</strong> ${navigator.platform} <br>
+        <strong>Java Enabled:</strong> ${navigator.javaEnabled()} <br>
+        <strong>Screen Resolution:</strong> ${screen.width} x ${screen.height} <br>
+        <strong>Available Screen Size:</strong> ${screen.availWidth} x ${screen.availHeight} <br>
+        <strong>Color Depth:</strong> ${screen.colorDepth}
+    `;
+    document.getElementById("browserInfo").innerHTML = info;
+}
+
+
+// ================= PART B: Page Info =================
+
+// Using document, location, and window objects
+function displayPageInfo() {
+    const page = `
+        <strong>Current URL:</strong> ${location.href} <br>
+        <strong>Hostname:</strong> ${location.hostname} <br>
+        <strong>Page Title:</strong> <span id="currentTitle">${document.title}</span>
+    `;
+    document.getElementById("pageInfo").innerHTML = page;
+}
+
+// Change Title dynamically
+function changeTitle() {
+    let newTitle = prompt("Enter new page title:");
+    if (newTitle) {
+        document.title = newTitle;
+        document.getElementById("currentTitle").innerText = newTitle;
+    }
+}
+
+
+// ================= PART C: Navigation =================
+
+// Reload current page
+function reloadPage() {
+    location.reload();
+}
+
+// Redirect to another URL
+function redirectPage() {
+    location.href = "https://www.example.com";
+}
+
+// Navigate back
+function goBack() {
+    history.back();
+}
+
+// Navigate forward
+function goForward() {
+    history.forward();
+}
+
+
+// ================= PART D: Dynamic Background =================
+
+function changeBackgroundColor() {
+    let width = window.innerWidth;
+
+    if (width < 600) {
+        document.body.style.backgroundColor = "blue";
+    } 
+    else if (width >= 600 && width <= 991) {
+        document.body.style.backgroundColor = "green";
+    } 
+    else {
+        document.body.style.backgroundColor = "orange";
+    }
+}
+
+// Run on load
+window.onload = function() {
+    displayBrowserInfo();
+    displayPageInfo();
+    changeBackgroundColor();
+};
+
+// Run on resize
+window.onresize = changeBackgroundColor;
+
+</script>
+
+</body>
+</html>

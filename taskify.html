@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Taskify | Jean Louise M. Enon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+  <h1>Taskify</h1>
+  <p class="tagline">Organize. Focus. Execute</p>
+
+  <div class="controls">
+   <input type="text" id="taskInput" placeholder="Add a Task"> 
+
+  <button id="addBtn" type="button">Add</button>
+  <button id="sortAsc" type="button">Sort A-Z</button>
+  <button id="sortDesc" type="button">Sort Z-A</button>
+  <button id="resetOrder" type="button">Reset</button>
+  <button id="themeToggle" type="button">🌙</button>
+  </div>
+
+ <div class="stats">
+    Total: <span id="totalCount">0</span> |
+    Completed: <span id="completedCount">0</span> |
+    Deleted: <span id="deletedCount">0</span> |
+    Edited: <span id="editedCount">0</span>
+</div>
+
+  <ul id="taskList"></ul>
+
+  <script src="script.js"></script>
+</body>
+</html>

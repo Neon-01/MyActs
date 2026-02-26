@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FRUIT Guessing Game - Jean Louise Enon</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 60px;
+            transition: background-color 0.5s ease;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #message {
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #hint {
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>FRUIT Guessing Game</h1>
+    <h3>Jean Louise Enon | BSIT | 2D</h3>
+
+    <p id="hint"></p>
+
+    <input type="text" id="guessInput" placeholder="Enter your guess">
+    <br>
+    <button id="submitBtn">Submit Guess</button>
+    <button id="restartBtn">Restart Game</button>
+
+    <p id="message"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
