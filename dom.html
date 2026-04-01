@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DOM Traversal Activity</title>
+
+<style>
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 20px;
+  }
+
+  /* Header */
+  .profile {
+    border: 3px solid black;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  /* Nodes */
+  .grandparent {
+    background-color: #f88f8f;
+    padding: 20px;
+  }
+
+  .parent {
+    background-color: #80d2ee;
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .child {
+    background-color: #8bf18b;
+    margin: 5px;
+    padding: 10px;
+  }
+
+  .highlight {
+    border: 3px solid red;
+  }
+
+  /* Buttons */
+  .controls {
+    margin: 20px 0;
+  }
+
+  button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- PROFILE HEADER -->
+<div class="profile">
+  <h3>Profile Information</h3>
+  <p>Name: JEAN LOUISE M. ENON</p>
+  <p>Sex: FEMALE</p>
+  <p>Address: ATBOG, LAGONOY, CAMARINES SUR</p>
+  <p>Course/Year/Section: BSIT- 2D </p>
+  <p>School: PARTIDO STATE UNIVERSITY</p>
+  <p>Semester & AY: SECOND SEMESTER  2025-2026</p>
+  <p>Subject: PF2- EVENT DRIVEN PROGRAMMING </p>
+  <p>Instructor:SIR. ARJAY F. ABIO </p>
+</div>
+
+<!-- BUTTONS -->
+<div class="controls">
+  <button onclick="goParent()">Traverse Up</button>
+  <button onclick="goChild()">Traverse Down</button>
+  <button onclick="goNext()">Next Sibling</button>
+  <button onclick="goPrev()">Previous Sibling</button>
+  <button onclick="addChild()">Add Child</button>
+  <button onclick="deleteNode()">Delete Node</button>
+</div>
+
+<!-- TREE STRUCTURE -->
+<div class="grandparent" id="grandparent">
+  Grandparent
+
+  <div class="parent">
+    Parent 1
+    <div class="child">Child 1</div>
+    <div class="child">Child 2</div>
+  </div>
+
+  <div class="parent">
+    Parent 2
+    <div class="child">Child 1</div>
+    <div class="child">Child 2</div>
+  </div>
+
+</div>
+
+<script>
+let selected = null;
+
+// SELECT NODE
+document.querySelectorAll('.grandparent, .parent, .child').forEach(node => {
+  node.addEventListener('click', function(e) {
+    e.stopPropagation();
+
+    if (selected) {
+      selected.classList.remove('highlight');
+    }
+
+    selected = this;
+    selected.classList.add('highlight');
+  });
+});
+
+// TRAVERSE UP
+function goParent() {
+  if (selected && selected.parentElement && 
+   (selected.parentElement.classList.contains('grandparent') || 
+    selected.parentElement.classList.contains('parent'))) {
+    selected.classList.remove('highlight');
+    selected = selected.parentElement;
+    selected.classList.add('highlight');
+  }
+}
+
+// TRAVERSE DOWN
+function goChild() {
+  if (selected) {
+    let child = selected.querySelector('.parent, .child');
+    if (child) {
+      selected.classList.remove('highlight');
+      selected = child;
+      selected.classList.add('highlight');
+    }
+  }
+}
+
+// NEXT SIBLING
+function goNext() {
+  if (selected && selected.nextElementSibling) {
+    selected.classList.remove('highlight');
+    selected = selected.nextElementSibling;
+    selected.classList.add('highlight');
+  }
+}
+
+// PREVIOUS SIBLING
+function goPrev() {
+  if (selected && selected.previousElementSibling) {
+    selected.classList.remove('highlight');
+    selected = selected.previousElementSibling;
+    selected.classList.add('highlight');
+  }
+}
+
+// ADD CHILD
+function addChild() {
+  if (!selected) return;
+
+  if (selected.classList.contains('grandparent')) {
+    let newParent = document.createElement('div');
+    newParent.className = 'parent';
+    newParent.innerHTML = `
+      New Parent
+      <div class="child">Child 1</div>
+      <div class="child">Child 2</div>
+    `;
+    selected.appendChild(newParent);
+    attachEvents();
+  }
+
+  else if (selected.classList.contains('parent')) {
+    let newChild = document.createElement('div');
+    newChild.className = 'child';
+    newChild.textContent = 'New Child';
+    selected.appendChild(newChild);
+    attachEvents();
+  }
+
+  else {
+    alert("Cannot add child to a child node.");
+  }
+}
+
+// DELETE NODE
+function deleteNode() {
+  if (!selected) return;
+
+  if (selected.classList.contains('grandparent')) {
+    alert("Cannot delete the grandparent node.");
+    return;
+  }
+
+  let temp = selected.parentElement;
+  selected.remove();
+  selected = null;
+
+  if (temp) {
+    selected = temp;
+    selected.classList.add('highlight');
+  }
+}
+
+// REATTACH EVENTS (for new nodes)
+function attachEvents() {
+  document.querySelectorAll('.parent, .child').forEach(node => {
+    node.onclick = function(e) {
+      e.stopPropagation();
+
+      if (selected) {
+        selected.classList.remove('highlight');
+      }
+
+      selected = this;
+      selected.classList.add('highlight');
+    };
+  });
+}
+</script>
+
+</body>
+</html>
