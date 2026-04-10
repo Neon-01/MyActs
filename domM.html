@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interactive Profile</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #d0aa79;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: rgb(248, 195, 145);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+button {
+  margin: 5px;
+  cursor: pointer;
+}
+
+li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+li:hover {
+  background: #aa4a4a;
+}
+
+.selected {
+  background: rgb(156, 216, 236);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- PROFILE -->
+<h2>Profile</h2>
+<img id="profilePic" src="jelone.jpg">
+<input type="file" id="imgInput" hidden>
+
+<h1 id="name">Jey El Enon</h1>
+<button onclick="editText('name')">Edit Name</button>
+
+<p id="bio">Your bio here.</p>
+<button onclick="editText('bio')">Edit Bio</button>
+
+<hr>
+
+<!-- SKILLS -->
+<h2>Skills</h2>
+<ul id="skills">
+  <li draggable="true">HTML</li>
+  <li draggable="true">CSS</li>
+  <li draggable="true">JavaScript</li>
+</ul>
+
+<button onclick="addItem('skills')">Add Skill</button>
+<button onclick="deleteItems('skills')">Delete Skill</button>
+
+<hr>
+
+<!-- EDUCATION -->
+<h2>Education</h2>
+<div id="education">
+  <p contenteditable="false">School: PARTIDO STATE UNIVERSITY</p>
+  <p contenteditable="false">Course: BSIT</p>
+  <p contenteditable="false">Year: 2025</p>
+</div>
+
+<button onclick="editEducation()">Edit Education</button>
+
+<hr>
+
+<!-- HOBBIES -->
+<h2>Hobbies</h2>
+<ul id="hobbies">
+  <li draggable="true">Gaming</li>
+  <li draggable="true">Music</li>
+  <li draggable="true">Sports</li>
+</ul>
+
+<button onclick="addItem('hobbies')">Add Hobby</button>
+<button onclick="deleteItems('hobbies')">Delete Hobby</button>
+
+<hr>
+
+<button onclick="resetData()">Reset</button>
+
+</div>
+
+<script>
+// LOAD DATA
+window.onload = () => {
+  if(localStorage.getItem("data")){
+    document.body.innerHTML = localStorage.getItem("data");
+    addEvents();
+  } else {
+    addEvents();
+  }
+};
+
+// SAVE
+function save(){
+  localStorage.setItem("data", document.body.innerHTML);
+}
+
+// PROFILE IMAGE
+document.getElementById("profilePic").onclick = () => {
+  document.getElementById("imgInput").click();
+};
+
+document.getElementById("imgInput").onchange = function(){
+  const file = this.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(){
+    document.getElementById("profilePic").src = reader.result;
+    console.log("Profile picture updated");
+    save();
+  };
+  reader.readAsDataURL(file);
+};
+
+// EDIT NAME/BIO
+function editText(id){
+  const el = document.getElementById(id);
+  const input = document.createElement("input");
+  input.value = el.innerText;
+
+  input.onblur = () => {
+    el.innerText = input.value;
+    input.replaceWith(el);
+    console.log(id + " edited");
+    save();
+  };
+
+  input.onkeypress = (e) => {
+    if(e.key === "Enter") input.blur();
+  };
+
+  el.replaceWith(input);
+  input.focus();
+}
+
+// ADD ITEM
+function addItem(listId){
+  const ul = document.getElementById(listId);
+  const input = document.createElement("input");
+
+  ul.after(input);
+  input.focus();
+
+  input.onkeypress = (e) => {
+    if(e.key === "Enter"){
+      const li = document.createElement("li");
+      li.innerText = input.value;
+      li.draggable = true;
+
+      ul.appendChild(li);
+      console.log(listId + " added: " + input.value);
+
+      input.remove();
+      addEvents();
+      save();
+    }
+  };
+}
+
+// DELETE ITEMS
+function deleteItems(listId){
+  const items = document.querySelectorAll(`#${listId} .selected`);
+  items.forEach(item => item.remove());
+
+  console.log(listId + " deleted");
+  save();
+}
+
+// SELECT ITEMS
+function addEvents(){
+  document.querySelectorAll("li").forEach(li => {
+    li.onclick = () => {
+      li.classList.toggle("selected");
+      console.log("Item selected");
+    };
+
+    // DRAG
+    li.ondragstart = (e) => {
+      e.dataTransfer.setData("text", e.target.innerText);
+      dragged = li;
+    };
+
+    li.ondragover = (e) => e.preventDefault();
+
+    li.ondrop = (e) => {
+      e.preventDefault();
+      li.parentNode.insertBefore(dragged, li);
+      console.log("Item reordered");
+      save();
+    };
+  });
+}
+
+// EDUCATION EDIT
+function editEducation(){
+  document.querySelectorAll("#education p").forEach(p => {
+    p.contentEditable = true;
+    p.onblur = () => {
+      p.contentEditable = false;
+      console.log("Education edited");
+      save();
+    };
+  });
+}
+
+// RESET
+function resetData(){
+  localStorage.clear();
+  location.reload();
+}
+</script>
+
+</body>
+</html>
