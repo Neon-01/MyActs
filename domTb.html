@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Table Comparison</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #cfddf4;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+button {
+  background: #0e5b84;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0e5b84;
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 50%;
+  background: white;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+th {
+  background: #0e5b84;
+  color: rgb(254, 253, 253);
+}
+
+th, td {
+  border: 2px solid #ccc; 
+  padding: 10px;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+tr:hover {
+  background: #e6f2ff;
+}
+
+#methodUsed {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Product Table Comparison</h2>
+
+<button onclick="loadInnerHTML()">Load using innerHTML</button>
+<button onclick="loadDOM()">Load using DOM Method</button>
+<button onclick="clearTable()">Clear Table</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Price</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<p id="methodUsed"></p>
+
+<script>
+// PRODUCT DATA
+const products = [
+  { name: "PS5", price: 45000, category: "Electronics" },
+  { name: "PHONE", price: 20000, category: "Electronics" },
+  { name: "VASE", price: 5000, category: "Furniture" },
+  { name: "LAMP", price: 500, category: "Furniture" },
+  { name: "SHOES", price: 1150, category: "Clothing" }
+];
+
+// INNER HTML METHOD
+function loadInnerHTML() {
+  let rows = "";
+
+  products.forEach(p => {
+    rows += `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.price}</td>
+        <td>${p.category}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("tableBody").innerHTML = rows;
+  document.getElementById("methodUsed").innerText = "Method Used: innerHTML";
+
+  console.log("Loaded using innerHTML");
+}
+
+// DOM METHOD
+function loadDOM() {
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = ""; // clear first
+
+  products.forEach(p => {
+    const tr = document.createElement("tr");
+
+    const td1 = document.createElement("td");
+    td1.textContent = p.name;
+
+    const td2 = document.createElement("td");
+    td2.textContent = p.price;
+
+    const td3 = document.createElement("td");
+    td3.textContent = p.category;
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("methodUsed").innerText = "Method Used: Direct DOM";
+
+  console.log("Loaded using DOM");
+}
+
+// CLEAR TABLE
+function clearTable() {
+  document.getElementById("tableBody").innerHTML = "";
+  document.getElementById("methodUsed").innerText = "";
+  console.log("Table cleared");
+}
+</script>
+
+</body>
+</html>
