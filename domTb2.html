@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Table Comparison</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #cfddf4;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+/* INPUTS */
+input {
+  margin: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* BUTTONS */
+button {
+  background: #0e5b84;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #337bc8;
+}
+
+/* TABLE */
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 70%;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th {
+  background: #0e5b84;
+  color: white;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+tr:hover {
+  background: #e6f2ff;
+}
+
+/* DELETE BUTTON */
+td button {
+  background: #e74c3c;
+}
+
+td button:hover {
+  background: #c0392b;
+}
+
+#methodUsed {
+  margin-top: 10px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Product Table Comparison</h2>
+
+<!-- INPUT FORM -->
+<h3>Add Product</h3>
+<input type="text" id="name" placeholder="Product Name">
+<input type="number" id="price" placeholder="Price">
+<input type="text" id="category" placeholder="Category">
+<br>
+<button onclick="addProductInnerHTML()">Add (innerHTML)</button>
+<button onclick="addProductDOM()">Add (DOM)</button>
+
+<br><br>
+
+<button onclick="loadInnerHTML()">Load using innerHTML</button>
+<button onclick="loadDOM()">Load using DOM Method</button>
+<button onclick="clearTable()">Clear Table</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Price</th>
+      <th>Category</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<p id="methodUsed"></p>
+
+<script>
+/*PRODUCT DATA*/
+let products = [
+  { name: "Laptop", price: 45000, category: "Electronics" },
+  { name: "Phone", price: 20000, category: "Electronics" },
+  { name: "Table", price: 5000, category: "Furniture" },
+  { name: "Chair", price: 1500, category: "Furniture" },
+  { name: "Notebook", price: 50, category: "School Supplies" }
+];
+
+/*INNER HTML METHOD*/
+function loadInnerHTML() {
+  console.time("innerHTML");
+
+  let rows = "";
+  products.forEach((p, index) => {
+    rows += `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.price}</td>
+        <td>${p.category}</td>
+        <td><button onclick="deleteProduct(${index})">Delete</button></td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("tableBody").innerHTML = rows;
+  document.getElementById("methodUsed").innerText = "Method Used: innerHTML";
+
+  console.timeEnd("innerHTML");
+}
+
+/* DOM METHOD*/
+function loadDOM() {
+  console.time("DOM");
+
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+
+  products.forEach((p, index) => {
+    const tr = document.createElement("tr");
+
+    const td1 = document.createElement("td");
+    td1.textContent = p.name;
+
+    const td2 = document.createElement("td");
+    td2.textContent = p.price;
+
+    const td3 = document.createElement("td");
+    td3.textContent = p.category;
+
+    const td4 = document.createElement("td");
+    const btn = document.createElement("button");
+    btn.textContent = "Delete";
+    btn.onclick = () => deleteProduct(index);
+
+    td4.appendChild(btn);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("methodUsed").innerText = "Method Used: DOM";
+
+  console.timeEnd("DOM");
+}
+
+/* ADD PRODUCT*/
+function addProductInnerHTML() {
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const category = document.getElementById("category").value;
+
+  products.push({ name, price, category });
+  loadInnerHTML();
+}
+
+function addProductDOM() {
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const category = document.getElementById("category").value;
+
+  products.push({ name, price, category });
+  loadDOM();
+}
+
+/* DELETE */ 
+function deleteProduct(index) {
+  products.splice(index, 1);
+
+  // reload depending on last method used
+  if (document.getElementById("methodUsed").innerText.includes("innerHTML")) {
+    loadInnerHTML();
+  } else {
+    loadDOM();
+  }
+}
+
+/* CLEAR */ 
+function clearTable() {
+  document.getElementById("tableBody").innerHTML = "";
+  document.getElementById("methodUsed").innerText = "";
+}
+
+/*PERFORMANCE TEST*/
+function performanceTest() {
+  // generate many rows
+  for (let i = 0; i < 100; i++) {
+    products.push({
+      name: "Test" + i,
+      price: i * 10,
+      category: "Test"
+    });
+  }
+
+  loadInnerHTML();
+  loadDOM();
+}
+</script>
+
+</body>
+</html>
