@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #b4d2e0;
+  padding: 50px;
+}
+
+.timer {
+  font-size: 48px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+#status {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* BUTTONS */
+/* GENERAL BUTTON STYLE */
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* START = GREEN */
+.start {
+  background: #4CAF50;
+}
+
+.start:hover {
+  background: #45a049;
+}
+
+/* PAUSE = YELLOW */
+.pause {
+  background: #f1c40f;
+  color: black; /* better contrast */
+}
+
+.pause:hover {
+  background: #d4ac0d;
+}
+
+/* RESET = RED */
+.reset {
+  background: #e74c3c;
+}
+
+.reset:hover {
+  background: #c0392b;
+}
+
+/* HOVER EFFECT */
+button:hover {
+  background: #4ca550;
+}
